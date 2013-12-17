@@ -65,7 +65,7 @@ class initHandler:
         
         comPort (string): The comport to connect to (default=COM8)
         """
-        self.spiderSer = None   #serial port to spider
+       /Users/Allen_Deng/LTLMoP/src/lib/handlers/drive/SpiderDrive.py self.spiderSer = None   #serial port to spider
         self.gaits = {}         #dictionary of gaits indexed by string of names
         self.walkingGaits = ["walk1", "walk2"]        
         
