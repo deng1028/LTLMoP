@@ -54,5 +54,5 @@ class Johnny5SensorHandler:
             pose = self.pose_handler.getPose()
             
             range = 0.7
-            #print math.sqrt((pose[0]-x)**2+(pose[1]-y)**2)
+            # Return true if robot is within range of helmet
             return math.sqrt((pose[0]-x)**2+(pose[1]-y)**2)<range

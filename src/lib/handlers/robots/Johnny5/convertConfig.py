@@ -33,8 +33,11 @@
 cfg = [data.strip('\r\n') for data in open('ConfigSSC32.cfg')]
 
 # config is a 16x6 array, initialized with all 0
-config = [[0 for i in range(6)] for j in range(16)]
+config = [[0 for i in range(5)] for j in range(16)]
 
+for servo_index in range(16):
+	config[servo_index] = map(int, cfg[8*servo_index+3:8*servo_index+8])
+"""
 for i in range(128):
     if i%8==3:
         config[i/8][0] = i/8
@@ -48,16 +51,14 @@ for i in range(128):
     if i%8==7:
         config[i/8][5] = int(cfg[i])
 #i+=1
-
+"""
 print(config)
 
 move = [data.strip('\r\n') for data in open('TakeBow.csv')]
 # Convert .csv file into 2D array "move"
 for i in range(len(move)):
     move[i] = move[i].split(';')
-print(move)
-
-valid = 0
+#print(move)
 
 #for i in range(16):
 #print("self.johnny5Serial.write('#" + str(i) + " P" + str(config[i][1]) + " T" + str(1000) + " \\r')" )
@@ -65,15 +66,12 @@ valid = 0
 for i in range(1,len(move)):
     # Servo num in column 3:18, corresponding Time in column 35:50
     for j in range(3,19):
-        valid = 1
-        #print(i,j)
-        value = config[j-3][2]+(((float(move[i][j]))-config[j-3][4])/(config[j-3][5]-config[j-3][4])*(config[j-3][3]-config[j-3][2]))
+        value = config[j-3][1]+(((float(move[i][j]))-config[j-3][3])/(config[j-3][4]-config[j-3][3])*(config[j-3][2]-config[j-3][1]))
         print("self.johnny5Serial.write('#" + str(j-3) + " P" + str(int(value)) + " T" + str(move[i][j-3+35]) + " \\r')" )
     # column 35:50 are corresponding servo time in ms
     # [a:b] goes from a to b-1, b not included
-    if valid:
-        print("time.sleep(" + str(int(max(move[i][35:51]))/1000) +")")
-        valid = 0
+    print("time.sleep(" + str(int(max(move[i][35:51]))/1000) +")")
+
 
 
 
